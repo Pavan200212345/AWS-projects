@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Power Calculator</title>
+    <style>
+        body {
+            background-color: #1A1A1D;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #2D2D2D;
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        h1 {
+            color: #86C232;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        label {
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        input {
+            font-size: 1.1em;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            width: 120px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #86C232;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin-top: 20px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #61892F;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.4em;
+            color: #fff;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To the Power of Math!</h1>
+        <div class="input-row">
+            <label for="base">Base:</label>
+            <input type="text" id="base" placeholder="e.g., 2">
+            <label for="exponent">Exponent:</label>
+            <input type="text" id="exponent" placeholder="e.g., 8">
+        </div>
+        <button onclick="calculatePower()">CALCULATE</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculatePower() {
+            const base = document.getElementById('base').value.trim();
+            const exponent = document.getElementById('exponent').value.trim();
+
+            if (isNaN(base) || isNaN(exponent) || base === '' || exponent === '') {
+                document.getElementById("result").innerText = "🚫 Please enter valid numbers!";
+                return;
+            }
+
+            const baseNum = parseFloat(base);
+            const exponentNum = parseFloat(exponent);
+
+            const result = Math.pow(baseNum, exponentNum);
+
+            document.getElementById("result").innerText = `🔢 Result: ${result}`;
+        }
+    </script>
+</body>
+</html>
