@@ -1,112 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Power Calculator</title>
-    <style>
-        body {
-            background-color: #1A1A1D;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+  <meta charset="UTF-8" />
+  <title>To the Power of Math</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            background-color: #2D2D2D;
-            padding: 40px 50px;
-            border-radius: 20px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.4);
-            text-align: center;
-        }
+    body {
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      color: #fff;
+    }
 
-        h1 {
-            color: #86C232;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
+    .card {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 20px;
+      width: 380px;
+      text-align: center;
+      z-index: 2;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
 
-        label {
-            color: #fff;
-            font-size: 1.2em;
-        }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
 
-        input {
-            font-size: 1.1em;
-            margin: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            width: 120px;
-            text-align: center;
-        }
+    label {
+      display: block;
+      text-align: left;
+      margin: 15px 0 5px;
+      font-weight: 600;
+      color: #caffbf;
+    }
 
-        button {
-            background-color: #86C232;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            margin-top: 20px;
-            font-size: 1.1em;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
 
-        button:hover {
-            background-color: #61892F;
-            transform: scale(1.05);
-        }
+    input::placeholder {
+      color: #e0fbe2;
+    }
 
-        #result {
-            margin-top: 20px;
-            font-size: 1.4em;
-            color: #fff;
-        }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #ffffff44;
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-        .input-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-    </style>
+    button:hover {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #faff00;
+      font-weight: bold;
+      text-shadow: 0 0 10px #faff00;
+    }
+
+    .fish {
+      position: absolute;
+      font-size: 30px;
+      opacity: 0.8;
+      animation: swim linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes swim {
+      0% {
+        transform: translateX(-100vw);
+      }
+      100% {
+        transform: translateX(110vw);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>To the Power of Math!</h1>
-        <div class="input-row">
-            <label for="base">Base:</label>
-            <input type="text" id="base" placeholder="e.g., 2">
-            <label for="exponent">Exponent:</label>
-            <input type="text" id="exponent" placeholder="e.g., 8">
-        </div>
-        <button onclick="calculatePower()">CALCULATE</button>
-        <div id="result"></div>
-    </div>
+  <div class="card">
+    <h1>🐠 To the Power of Math 🧠</h1>
+    <form onsubmit="event.preventDefault(); callAPI();">
+      <label for="base">Base</label>
+      <input type="text" id="base" placeholder="e.g. 2" required>
+      <label for="exponent">Exponent</label>
+      <input type="text" id="exponent" placeholder="e.g. 5" required>
+      <button type="submit">Calculate</button>
+    </form>
+    <div id="result"></div>
+  </div>
 
-    <script>
-        function calculatePower() {
-            const base = document.getElementById('base').value.trim();
-            const exponent = document.getElementById('exponent').value.trim();
+  <script>
+    // Fish emojis for swimming
+    const fishEmojis = ['🐠', '🐟', '🐡'];
+    const body = document.body;
 
-            if (isNaN(base) || isNaN(exponent) || base === '' || exponent === '') {
-                document.getElementById("result").innerText = "🚫 Please enter valid numbers!";
-                return;
-            }
+    for (let i = 0; i < 15; i++) {
+      const fish = document.createElement('div');
+      fish.classList.add('fish');
+      fish.textContent = fishEmojis[Math.floor(Math.random() * fishEmojis.length)];
+      fish.style.top = `${Math.random() * 100}vh`;
+      fish.style.left = `-${Math.random() * 100}vw`;
+      fish.style.animationDuration = `${10 + Math.random() * 20}s`;
+      fish.style.fontSize = `${20 + Math.random() * 30}px`;
+      fish.style.transform = 'scaleX(-1)'; // make fish face right
+      body.appendChild(fish);
+    }
 
-            const baseNum = parseFloat(base);
-            const exponentNum = parseFloat(exponent);
+    function callAPI() {
+      const base = document.getElementById('base').value;
+      const exponent = document.getElementById('exponent').value;
 
-            const result = Math.pow(baseNum, exponentNum);
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
 
-            document.getElementById("result").innerText = `🔢 Result: ${result}`;
-        }
-    </script>
+      const raw = JSON.stringify({ base, exponent });
+
+      fetch("https://slysrzbl27.execute-api.ap-south-1.amazonaws.com/dev/", {
+        method: 'POST',
+        headers: headers,
+        body: raw,
+        redirect: 'follow'
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("result").textContent = `🧠 Result: ${data.body}`;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById("result").textContent = "⚠️ Something went wrong!";
+      });
+    }
+  </script>
 </body>
 </html>
